@@ -16,6 +16,9 @@
 
 #define CONFIG_MISC_INIT_R /* To stop autoboot */
 
+/* raw initrd support for snappy */
+#define CONFIG_SUPPORT_RAW_INITRD
+
 /* Physical Memory Map */
 #define CONFIG_NR_DRAM_BANKS		1
 #define PHYS_SDRAM_1			0x80000000
@@ -55,6 +58,9 @@
 
 /* Libraries  */
 #define CONFIG_MD5
+
+/* vfat support for snappy */
+#define CONFIG_SUPPORT_VFAT
 
 /* Extra Commands */
 #define CONFIG_CMD_CACHE
@@ -132,10 +138,16 @@ REFLASH(dragonboard/u-boot.img, 8)\
 	"ramdisk_addr=0x84000000\0"\
 	BOOTENV
 
-#define CONFIG_ENV_IS_NOWHERE
-#define CONFIG_ENV_SIZE			0x1000
+#undef CONFIG_ENV_IS_NOWHERE
+#define CONFIG_ENV_SIZE		SZ_128K
+#define CONFIG_ENV_IS_IN_FAT
+#define CONFIG_FAT_WRITE
+#define FAT_ENV_INTERFACE      "mmc"
+#define FAT_ENV_DEVICE_AND_PART        "0:16"
+#define FAT_ENV_FILE           "uboot.env"
 #define CONFIG_ENV_VARS_UBOOT_CONFIG
 #define CONFIG_SYS_NO_FLASH
+#define CONFIG_SYS_REDUNDAND_ENVIRONMENT
 
 /* Size of malloc() pool */
 #define CONFIG_SYS_MALLOC_LEN		(CONFIG_ENV_SIZE + SZ_8M)
